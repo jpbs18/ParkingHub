@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  parkinghub:
+    build:
+      context: .
+      dockerfile: ParkingHub/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Database=parkinghub;Username=postgres;Password=postgres
+    networks:
+      - parkingnet
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: parkinghub
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - parkingnet
+
+networks:
+  parkingnet:
+
+volumes:
+  postgres_data:
+
