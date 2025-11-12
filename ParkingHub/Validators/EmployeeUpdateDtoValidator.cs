@@ -12,6 +12,20 @@ namespace ParkingHub.Validators
                 .MinimumLength(3).WithMessage("Name must be at least 3 characters.")
                 .MaximumLength(50).WithMessage("Name must be at most 50 characters.");
 
+            When(x => x.InsidePark, () =>
+            {
+                RuleFor(x => x.CurrentParkId)
+                    .NotNull()
+                    .WithMessage("CurrentParkId must be set when InsidePark is true.");
+            });
+
+            When(x => !x.InsidePark, () =>
+            {
+                RuleFor(x => x.CurrentParkId)
+                    .Must(id => id == null)
+                    .WithMessage("CurrentParkId must be null when InsidePark is false.");
+            });
+
             RuleFor(x => x.LicensePlates)
                 .NotNull().WithMessage("License plates list cannot be null.");
 

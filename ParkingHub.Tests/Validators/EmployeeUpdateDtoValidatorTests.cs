@@ -50,6 +50,36 @@ namespace ParkingHub.Tests.Validators
         }
 
         [Test]
+        public void InsidePark_IsTrue_CurrentParkId_NotNull_ShouldPass()
+        {
+            var dto = new EmployeeUpdateDto
+            {
+                Name = "Alice",
+                InsidePark = true,
+                CurrentParkId = 1,
+                LicensePlates = ["AA-11-AA"]
+            };
+
+            var result = _validator.TestValidate(dto);
+            result.ShouldNotHaveValidationErrorFor(x => x.CurrentParkId);
+        }
+
+        [Test]
+        public void InsidePark_IsFalse_CurrentParkId_IsNotNull_ShouldFail()
+        {
+            var dto = new EmployeeUpdateDto
+            {
+                Name = "Alice",
+                InsidePark = false,
+                CurrentParkId = 2,
+                LicensePlates = ["AA-11-AA"]
+            };
+
+            var result = _validator.TestValidate(dto);
+            result.ShouldHaveValidationErrorFor(x => x.CurrentParkId);
+        }
+
+        [Test]
         public void LicensePlates_Null_ShouldFail()
         {
             var dto = new EmployeeUpdateDto { Name = "Alice", LicensePlates = null };
