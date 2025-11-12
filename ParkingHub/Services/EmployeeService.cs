@@ -1,15 +1,21 @@
-﻿using ParkingHub.Data;
+﻿using FluentValidation;
+using ParkingHub.Data;
 using ParkingHub.Data.DTOs.Employee;
 using ParkingHub.Exceptions;
 using ParkingHub.Repositories;
 
 namespace ParkingHub.Services
 {
-    public class EmployeeService(IEmployeeRepository repository) : IEmployeeService
+    public class EmployeeService
+        (IEmployeeRepository repository, 
+        IValidator<EmployeeCreateDto> createValidator,
+        IValidator<EmployeeUpdateDto> updateValidator) 
+        : IEmployeeService
     {
         public async Task<IEnumerable<EmployeeReadDto>> GetAllAsync()
         {
             var employees = await repository.GetAllAsync();
+
             return employees.Select(e => e.ToReadDto());
         }
 
@@ -23,32 +29,32 @@ namespace ParkingHub.Services
 
         public async Task<EmployeeReadDto> CreateAsync(EmployeeCreateDto dto)
         {
+            await createValidator.ValidateAndThrowAsync(dto);
+
             var employee = dto.ToEntity();
             await repository.AddAsync(employee);
 
-            var created = await repository.GetByIdAsync(employee.Id)
-                ?? throw new RepositoryException("Failed to load the newly created employee from the database.");
-
-            return created.ToReadDto();
+            return employee.ToReadDto();
         }
 
-        public async Task<bool> UpdateAsync(int id, EmployeeUpdateDto dto)
+        public async Task UpdateAsync(int id, EmployeeUpdateDto dto)
         {
+            await updateValidator.ValidateAndThrowAsync(dto);
+
             var employee = await repository.GetByIdAsync(id) 
                 ?? throw new NotFoundException($"Employee with id {id} not found.");
+
             employee.ApplyUpdate(dto);
 
             await repository.UpdateAsync(employee);
-            return true;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            _ = await repository.GetByIdAsync(id) 
+            var employee = await repository.GetByIdAsync(id) 
                 ?? throw new NotFoundException($"Employee with id {id} not found.");
 
-            await repository.DeleteAsync(id);
-            return true;
+            await repository.DeleteAsync(employee);
         }
     }
 }

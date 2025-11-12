@@ -17,9 +17,13 @@ namespace ParkingHub.Extensions
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddControllers();
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<EmployeeCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<EmployeeUpdateDtoValidator>();
 
             return services;
         }

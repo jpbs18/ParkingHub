@@ -8,6 +8,6 @@ namespace ParkingHub.Repositories
         Task<Employee?> GetByIdAsync(int id);
         Task AddAsync(Employee employee);
         Task UpdateAsync(Employee employee);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Employee employee);
     }
 }

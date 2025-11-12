@@ -16,15 +16,13 @@ namespace ParkingHub.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Employee> GetByIdAsync(int id)
+        public async Task<Employee?> GetByIdAsync(int id)
         {
-            var employee = await context.Employees
+            return await context.Employees
                 .Include(e => e.Company)
                 .Include(e => e.CurrentPark)
                 .Include(e => e.LicensePlates)
                 .FirstOrDefaultAsync(e => e.Id == id);
-
-            return employee ?? throw new NotFoundException($"Employee with ID {id} not found.");
         }
 
         public async Task AddAsync(Employee employee)
@@ -57,14 +55,11 @@ namespace ParkingHub.Repositories
             }
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Employee employee)
         {
             try
             {
-                var emp = await context.Employees.FindAsync(id) 
-                    ?? throw new NotFoundException($"Employee with ID {id} not found.");
-
-                context.Employees.Remove(emp);
+                context.Employees.Remove(employee);
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
