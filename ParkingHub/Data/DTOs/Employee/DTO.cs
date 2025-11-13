@@ -6,6 +6,7 @@ namespace ParkingHub.Data.DTOs.Employee
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public bool InsidePark { get; set; }
         public int? CurrentParkId { get; set; }
         public string? CurrentParkName { get; set; }
@@ -18,6 +19,7 @@ namespace ParkingHub.Data.DTOs.Employee
     public class EmployeeCreateDto
     {
         public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public int CompanyId { get; set; }
         public List<string> LicensePlates { get; set; } = [];
     }
@@ -25,6 +27,7 @@ namespace ParkingHub.Data.DTOs.Employee
     public class EmployeeUpdateDto
     {
         public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public bool InsidePark { get; set; }
         public int? CurrentParkId { get; set; }
         public List<string> LicensePlates { get; set; } = [];

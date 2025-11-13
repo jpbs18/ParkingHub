@@ -12,6 +12,7 @@ namespace ParkingHub.Data
             {
                 Id = employee.Id,
                 Name = employee.Name,
+                Email = employee.Email,
                 InsidePark = employee.InsidePark,
                 CurrentParkId = employee.CurrentParkId,
                 CurrentParkName = employee.CurrentPark?.Name,
@@ -32,6 +33,7 @@ namespace ParkingHub.Data
             return new Employee
             {
                 Name = dto.Name,
+                Email = dto.Email,
                 CompanyId = dto.CompanyId,
                 CreatedAt = DateTime.UtcNow,
                 LicensePlates = [.. dto.LicensePlates.Select(lp => new LicensePlate
@@ -44,6 +46,7 @@ namespace ParkingHub.Data
         public static void ApplyUpdate(this Employee employee, EmployeeUpdateDto dto)
         {
             employee.Name = dto.Name;
+            employee.Email = dto.Email;
             employee.InsidePark = dto.InsidePark;
             employee.CurrentParkId = dto.CurrentParkId;
             employee.LicensePlates.Clear();

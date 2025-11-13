@@ -75,6 +75,7 @@ namespace ParkingHub.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CompanyId = table.Column<int>(type: "integer", nullable: false),
                     InsidePark = table.Column<bool>(type: "boolean", nullable: false),
                     CurrentParkId = table.Column<int>(type: "integer", nullable: true),

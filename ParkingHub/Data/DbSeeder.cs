@@ -40,9 +40,9 @@ namespace ParkingHub.Data
 
             var employees = new List<Employee>
             {
-                new() { Name = "Alice", CompanyId = companies[0].Id, InsidePark = false, CreatedAt = DateTime.UtcNow },
-                new() { Name = "Bob", CompanyId = companies[1].Id, InsidePark = false, CreatedAt = DateTime.UtcNow },
-                new() { Name = "Charlie", CompanyId = companies[2].Id, InsidePark = false, CreatedAt = DateTime.UtcNow }
+                new() { Name = "Alice", Email = "Alice@hotmail.com", CompanyId = companies[0].Id, InsidePark = false, CreatedAt = DateTime.UtcNow },
+                new() { Name = "Bob", Email = "Bob@hotmail.com", CompanyId = companies[1].Id, InsidePark = false, CreatedAt = DateTime.UtcNow },
+                new() { Name = "Charlie", Email = "Charlie@hotmail.com", CompanyId = companies[2].Id, InsidePark = false, CreatedAt = DateTime.UtcNow }
             };
 
             context.Employees.AddRange(employees);

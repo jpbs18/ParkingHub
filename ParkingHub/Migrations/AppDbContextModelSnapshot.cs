@@ -86,6 +86,11 @@ namespace ParkingHub.Migrations
                     b.Property<int?>("CurrentParkId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<bool>("InsidePark")
                         .HasColumnType("boolean");
 

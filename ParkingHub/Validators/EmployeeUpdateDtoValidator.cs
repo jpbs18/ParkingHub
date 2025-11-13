@@ -12,6 +12,12 @@ namespace ParkingHub.Validators
                 .MinimumLength(3).WithMessage("Name must be at least 3 characters.")
                 .MaximumLength(50).WithMessage("Name must be at most 50 characters.");
 
+            RuleFor(e => e.Email)
+               .NotEmpty().WithMessage("Email is required.")
+               .MaximumLength(100).WithMessage("Email must not exceed 100 characters.")
+               .EmailAddress().WithMessage("Invalid email format.")
+               .WithMessage("Email already exists.");
+
             When(x => x.InsidePark, () =>
             {
                 RuleFor(x => x.CurrentParkId)

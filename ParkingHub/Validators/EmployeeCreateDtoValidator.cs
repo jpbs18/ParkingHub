@@ -15,6 +15,12 @@ namespace ParkingHub.Validators
             RuleFor(x => x.LicensePlates)
                 .NotNull().WithMessage("License plates list cannot be null.");
 
+            RuleFor(e => e.Email)
+                .NotEmpty().WithMessage("Email is required.")
+                .MaximumLength(100).WithMessage("Email must not exceed 100 characters.")
+                .EmailAddress().WithMessage("Invalid email format.")
+                .WithMessage("Email already exists.");
+
             When(x => x.LicensePlates != null, () =>
             {
                 RuleFor(x => x.LicensePlates)

@@ -12,7 +12,7 @@ using ParkingHub.Data;
 namespace ParkingHub.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251106194746_InitialCreate")]
+    [Migration("20251113181649_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -88,6 +88,11 @@ namespace ParkingHub.Migrations
 
                     b.Property<int?>("CurrentParkId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<bool>("InsidePark")
                         .HasColumnType("boolean");

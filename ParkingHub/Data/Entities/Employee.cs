@@ -11,6 +11,9 @@ namespace ParkingHub.Data.Entities
         [Required, MaxLength(50)]
         public string Name { get; set; } = string.Empty;
 
+        [Required, EmailAddress, MaxLength(50)]
+        public string Email { get; set; } = string.Empty;
+
         [Required]
         public int CompanyId { get; set; }
 
