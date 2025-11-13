@@ -6,11 +6,11 @@ using ParkingHub.Repositories;
 
 namespace ParkingHub.Services
 {
-    public class EmployeeService
-        (IEmployeeRepository repository, 
+    public class EmployeeService(
+        IEmployeeRepository repository, 
         IValidator<EmployeeCreateDto> createValidator,
-        IValidator<EmployeeUpdateDto> updateValidator) 
-        : IEmployeeService
+        IValidator<EmployeeUpdateDto> updateValidator
+    ) : IEmployeeService
     {
         public async Task<IEnumerable<EmployeeReadDto>> GetAllAsync()
         {
@@ -30,6 +30,10 @@ namespace ParkingHub.Services
         public async Task<EmployeeReadDto> CreateAsync(EmployeeCreateDto dto)
         {
             await createValidator.ValidateAndThrowAsync(dto);
+            if (await repository.EmailExists(dto.Email))
+            {
+                throw new ValidationException("An employee with the given email already exists.");
+            }
 
             var employee = dto.ToEntity();
             await repository.AddAsync(employee);
@@ -40,12 +44,15 @@ namespace ParkingHub.Services
         public async Task UpdateAsync(int id, EmployeeUpdateDto dto)
         {
             await updateValidator.ValidateAndThrowAsync(dto);
-
             var employee = await repository.GetByIdAsync(id) 
                 ?? throw new NotFoundException($"Employee with id {id} not found.");
 
-            employee.ApplyUpdate(dto);
+            if (await repository.EmailExistsForAnotherEmployee(id, dto.Email))
+            {
+                throw new ValidationException("Email already exists.");
+            }
 
+            employee.ApplyUpdate(dto);
             await repository.UpdateAsync(employee);
         }
 

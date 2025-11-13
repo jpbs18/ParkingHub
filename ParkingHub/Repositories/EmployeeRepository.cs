@@ -67,5 +67,15 @@ namespace ParkingHub.Repositories
                 throw new RepositoryException("Error deleting employee from the database.", ex);
             }
         }
+
+        public Task<bool> EmailExists(string email)
+        {
+            return context.Employees.AnyAsync(e => e.Email == email);
+        }
+
+        public Task<bool> EmailExistsForAnotherEmployee(int employeeId, string email)
+        {
+            return context.Employees.AnyAsync(e => e.Email == email && e.Id != employeeId);
+        }
     }
 }

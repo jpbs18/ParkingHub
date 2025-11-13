@@ -9,5 +9,7 @@ namespace ParkingHub.Repositories
         Task AddAsync(Employee employee);
         Task UpdateAsync(Employee employee);
         Task DeleteAsync(Employee employee);
+        Task<bool> EmailExists(string email);
+        Task<bool> EmailExistsForAnotherEmployee(int employeeId, string email);
     }
 }
